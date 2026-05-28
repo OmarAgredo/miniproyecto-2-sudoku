@@ -1,4 +1,4 @@
-# EISC Sudoku
+# Sudoku OEA
 
 JavaFX 6x6 Sudoku game built with FXML, CSS and a Model-View-Controller architecture.
 
