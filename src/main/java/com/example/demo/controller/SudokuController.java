@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -27,6 +28,9 @@ public class SudokuController implements Initializable {
     @FXML
     private GridPane sudokuGrid;
 
+    @FXML
+    private Label statusLabel;
+
     private SudokuBoard sudokuBoard;
     private TextField[][] cells;
     private Set<String> invalidCells;
@@ -46,6 +50,7 @@ public class SudokuController implements Initializable {
         hintCells = new HashSet<>();
         createBoardFields();
         refreshBoard();
+        updateStatus("Enter numbers from 1 to 6.", StatusType.DEFAULT);
     }
 
     /**
@@ -95,6 +100,7 @@ public class SudokuController implements Initializable {
             invalidCells.remove(createCellKey(row, col));
             hintCells.remove(createCellKey(row, col));
             refreshBoard();
+            updateStatus("Cell cleared.", StatusType.DEFAULT);
             event.consume();
             return;
         }
@@ -106,11 +112,12 @@ public class SudokuController implements Initializable {
                 invalidCells.remove(createCellKey(row, col));
                 hintCells.remove(createCellKey(row, col));
                 refreshBoard();
+                updateStatus("Valid move.", StatusType.VALID);
                 showWinMessageIfNeeded();
             } else {
                 invalidCells.add(createCellKey(row, col));
                 refreshBoard();
-                showAlert(Alert.AlertType.ERROR, "Invalid number");
+                updateStatus("Conflict detected in the row, column or block.", StatusType.ERROR);
             }
 
             event.consume();
@@ -164,7 +171,7 @@ public class SudokuController implements Initializable {
     }
 
     /**
-     * Shows the placeholder help dialog.
+     * Places a valid hint in the first available empty cell.
      *
      * @param event action event produced by the help button
      */
@@ -173,7 +180,7 @@ public class SudokuController implements Initializable {
         int[] hint = sudokuBoard.findHint();
 
         if (hint == null) {
-            showAlert(Alert.AlertType.INFORMATION, "No valid hint is available. Check the current board for conflicting values.");
+            updateStatus("No valid hint is available. Check the current board.", StatusType.ERROR);
             return;
         }
 
@@ -186,8 +193,22 @@ public class SudokuController implements Initializable {
         hintCells.add(createCellKey(row, col));
         refreshBoard();
         cells[row][col].requestFocus();
+        updateStatus("Hint placed: " + number + " at row " + (row + 1) + ", column " + (col + 1) + ".", StatusType.VALID);
         showWinMessageIfNeeded();
-        showAlert(Alert.AlertType.INFORMATION, "Hint placed: " + number + " at row " + (row + 1) + ", column " + (col + 1) + ".");
+    }
+
+    /**
+     * Starts a new randomly generated Sudoku game.
+     *
+     * @param event action event produced by the new game button
+     */
+    @FXML
+    private void onHandleNewGame(ActionEvent event) {
+        sudokuBoard.generateNewGame();
+        invalidCells.clear();
+        hintCells.clear();
+        refreshBoard();
+        updateStatus("New game ready.", StatusType.DEFAULT);
     }
 
     /**
@@ -204,11 +225,6 @@ public class SudokuController implements Initializable {
         }
     }
 
-    /**
-     * Applies the invalid-cell style to a text field.
-     *
-     * @param cell text field to mark as invalid
-     */
     /**
      * Converts supported digit and numpad keys to Sudoku numbers.
      *
@@ -257,6 +273,33 @@ public class SudokuController implements Initializable {
     }
 
     /**
+     * Updates the non-blocking status message below the board.
+     *
+     * @param message message to display
+     * @param statusType visual status category
+     */
+    private void updateStatus(String message, StatusType statusType) {
+        statusLabel.setText(message);
+        statusLabel.getStyleClass().removeAll(
+                "status-label-valid",
+                "status-label-error",
+                "status-label-complete"
+        );
+
+        if (statusType == StatusType.VALID) {
+            statusLabel.getStyleClass().add("status-label-valid");
+        }
+
+        if (statusType == StatusType.ERROR) {
+            statusLabel.getStyleClass().add("status-label-error");
+        }
+
+        if (statusType == StatusType.COMPLETE) {
+            statusLabel.getStyleClass().add("status-label-complete");
+        }
+    }
+
+    /**
      * Applies visual styles that emphasize the 2x3 Sudoku blocks.
      *
      * @param cell text field to style
@@ -297,8 +340,21 @@ public class SudokuController implements Initializable {
      */
     private void showWinMessageIfNeeded() {
         if (sudokuBoard.isGameWon()) {
+            updateStatus("Puzzle completed successfully.", StatusType.COMPLETE);
             showAlert(Alert.AlertType.INFORMATION, "Congratulations, you solved the Sudoku.");
         }
+    }
+
+    /**
+     * Defines the visual state used by the status label.
+     *
+     * @author Omar Esteban Agredo
+     */
+    private enum StatusType {
+        DEFAULT,
+        VALID,
+        ERROR,
+        COMPLETE
     }
 
     /**

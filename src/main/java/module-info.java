@@ -1,3 +1,6 @@
+/**
+ * JavaFX module for the EISC Sudoku application.
+ */
 module com.example.demo {
     requires javafx.controls;
     requires javafx.fxml;
