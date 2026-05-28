@@ -36,6 +36,11 @@
                         <Font name="Consolas Bold" size="13.0" />
                     </font>
                 </Button>
+                <Button mnemonicParsing="false" onAction="#onHandleNewGame" styleClass="secondary-button" text="NEW GAME">
+                    <font>
+                        <Font name="Consolas Bold" size="13.0" />
+                    </font>
+                </Button>
                 <Button mnemonicParsing="false" onAction="#onHandleHelp" styleClass="help-button" text="HELP">
                     <font>
                         <Font name="Consolas Bold" size="13.0" />

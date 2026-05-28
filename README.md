@@ -38,6 +38,7 @@ $env:JAVA_HOME='C:\Users\omara\.jdks\corretto-17.0.19'
 - Real-time validation for row, column and block conflicts.
 - Visual highlighting for fixed, selected, invalid and hint cells.
 - Help button that fills a valid empty cell.
+- New Game button that generates another board.
 - Restart button that restores the current puzzle to its initial state.
 - Non-blocking status messages for normal feedback.
 - MVC separation with model, view and controller packages.
@@ -61,7 +62,7 @@ The controller handles multiple JavaFX events:
 - `KEY_TYPED`: consumes direct text editing to keep input controlled by the model.
 - `MOUSE_CLICKED`: focuses the selected cell.
 - Focus changes: update the selected-cell visual state.
-- Button actions: provide hints and restart the current puzzle.
+- Button actions: provide hints, restart the current puzzle and generate a new game.
 
 The implementation uses an internal `CellEventBinder` interface and adapter-style inner classes for keyboard, mouse and focus events.
 
@@ -81,7 +82,7 @@ The `ArrayList<CellPosition>` structure is part of the Sudoku board construction
 - Error prevention: fixed cells cannot be edited and typed text is controlled by key events.
 - Error recognition and recovery: invalid moves are highlighted without interrupting the player with repeated dialogs.
 - Consistency and standards: fixed, selected, hint and conflict states use consistent colors.
-- User control and freedom: players can clear editable cells and restart the current puzzle.
+- User control and freedom: players can clear editable cells, restart the current puzzle and start a new game.
 - Recognition rather than recall: the legend explains the visual meaning of board states.
 
 ## Generate JavaDoc

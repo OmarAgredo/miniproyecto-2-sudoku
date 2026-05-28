@@ -212,6 +212,20 @@ public class SudokuController implements Initializable {
     }
 
     /**
+     * Starts a new randomly generated Sudoku game.
+     *
+     * @param event action event produced by the new game button
+     */
+    @FXML
+    private void onHandleNewGame(ActionEvent event) {
+        sudokuBoard.generateNewGame();
+        invalidCells.clear();
+        hintCells.clear();
+        refreshBoard();
+        updateStatus("New game ready.", StatusType.DEFAULT);
+    }
+
+    /**
      * Adds or removes the selected-cell style from a text field.
      *
      * @param cell text field to update
