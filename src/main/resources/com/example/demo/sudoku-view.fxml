@@ -19,7 +19,7 @@
             <children>
                 <VBox alignment="CENTER" spacing="4.0" HBox.hgrow="ALWAYS">
                     <children>
-                        <Label styleClass="title-label" text="EISC Sudoku">
+                        <Label styleClass="title-label" text=" Sudoku OEA">
                             <font>
                                 <Font name="Berlin Sans FB" size="30.0" />
                             </font>
