@@ -198,17 +198,17 @@ public class SudokuController implements Initializable {
     }
 
     /**
-     * Starts a new randomly generated Sudoku game.
+     * Restarts the current Sudoku game without generating a different puzzle.
      *
-     * @param event action event produced by the new game button
+     * @param event action event produced by the restart button
      */
     @FXML
-    private void onHandleNewGame(ActionEvent event) {
-        sudokuBoard.generateNewGame();
+    private void onHandleRestart(ActionEvent event) {
+        sudokuBoard.restartCurrentGame();
         invalidCells.clear();
         hintCells.clear();
         refreshBoard();
-        updateStatus("New game ready.", StatusType.DEFAULT);
+        updateStatus("Current game restarted.", StatusType.DEFAULT);
     }
 
     /**

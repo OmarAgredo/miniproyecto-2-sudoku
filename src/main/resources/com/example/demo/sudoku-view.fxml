@@ -31,7 +31,7 @@
                         </Label>
                     </children>
                 </VBox>
-                <Button mnemonicParsing="false" onAction="#onHandleNewGame" styleClass="secondary-button" text="NEW GAME">
+                <Button mnemonicParsing="false" onAction="#onHandleRestart" styleClass="secondary-button" text="RESTART">
                     <font>
                         <Font name="Consolas Bold" size="13.0" />
                     </font>

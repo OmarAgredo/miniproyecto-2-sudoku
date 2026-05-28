@@ -63,6 +63,21 @@ public class SudokuBoard {
     }
 
     /**
+     * Restores the current game to its initial fixed-cell state.
+     */
+    public void restartCurrentGame() {
+        clearMatrix(board);
+
+        for (int row = 0; row < SIZE; row++) {
+            for (int col = 0; col < SIZE; col++) {
+                if (fixedCells[row][col] == 1) {
+                    board[row][col] = solution[row][col];
+                }
+            }
+        }
+    }
+
+    /**
      * Generates a complete valid Sudoku solution using recursive backtracking.
      *
      * @param row current row to solve
